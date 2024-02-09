@@ -13,15 +13,27 @@ if (!empty($pagina)) {
     $qnt_result_pg = 40; // quantidade de registro pro página
     $inicio = ($pagina * $qnt_result_pg) - $qnt_result_pg;
 
-    // query para recuperar registro do BD
+    //SQL para BD (Postsgre)
+    // // query para recuperar registro do BD
+    // $query_usuarios = "SELECT usr.id, usr.nome, usr.email,
+    //                 ende.logradouro, ende.numero
+    //                 FROM usuarios AS usr
+    //                 LEFT JOIN enderecos AS ende ON ende.usuario_id=usr.id
+    //                 ORDER BY usr.id DESC
+    //                 LIMIT $inicio, $qnt_result_pg";
+    // $result_usuarios = $conn->prepare($query_usuarios);
+    // $result_usuarios->execute();
+    
+
+    //SQL para BD (Postsgre)
+
     $query_usuarios = "SELECT usr.id, usr.nome, usr.email,
-                    ende.logradouro, ende.numero
-                    FROM usuarios AS usr
-                    LEFT JOIN enderecos AS ende ON ende.usuario_id=usr.id
-                    ORDER BY usr.id DESC
-                    LIMIT $inicio, $qnt_result_pg";
-    $result_usuarios = $conn->prepare($query_usuarios);
-    $result_usuarios->execute();
+    ende.logradouro, ende.numero
+    FROM usuarios AS usr 
+    LEFT JOIN enderecos AS ende ON ende.usuario_id=usr.id
+    ORDER BY usr.id DESC
+    LIMIT $qnt_result_pg OFFSET $inicio";
+
 
     // Verificar se há registros e se a consulta foi bem-sucedida
     if (($result_usuarios) and ($result_usuarios->rowCount() !=0)) {
